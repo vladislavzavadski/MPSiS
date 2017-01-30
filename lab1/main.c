@@ -2,10 +2,9 @@
 #define DELAY 4000
 
 void main(void) {
-    volatile int flag = 0;
+    volatile int blinkMode = 0;
     volatile int i=0;
-    volatile int exit = 0;
-
+    
 	WDTCTL = WDTPW | WDTHOLD;	// Stop watchdog timer
 
     P8OUT = 0;
@@ -23,22 +22,22 @@ void main(void) {
 
     	while((P2IN & BIT2)==BIT2 && (P1IN & BIT7)==BIT7){//Пока никакая кнопка не нажата
     	
-        	if(flag == 1){ // Если режим моргания
+        	if(blinkMode == 1){ // Если режим моргания
     			P8OUT ^= BIT1;//Меняем значение бита на противоположное
     			for(i=0; i<DELAY && ((P2IN & BIT2)==BIT2 && (P1IN & BIT7)==BIT7); i++){} // Задержка
 
-                if(i!=DELAY){
+                if(i!=DELAY){//Если задежка была не DELAY тактов (Значит во время задержки нажата кнопка)
                     break;
                 }
     		}
     	
         }
 
-    	if(flag == 1){ // Переключаем режим
-    		flag = 0;
+    	if(blinkMode == 1){ // Переключаем режим
+    		blinkMode = 0;
     	}
     	else{
-    		flag = 1;
+    		blinkMode = 1;
     	}
 
     	while((P2IN & BIT2) != BIT2 || (P1IN & BIT7) != BIT7){} //Ждем пока кнопка не будет отпущена
