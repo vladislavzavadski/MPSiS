@@ -1,5 +1,5 @@
 #include <msp430.h>
-
+#define DELAY 4000
 
 void main(void) {
     volatile int flag = 0;
@@ -25,7 +25,11 @@ void main(void) {
     	
         	if(flag == 1){ // Если режим моргания
     			P8OUT ^= BIT1;//Меняем значение бита на противоположное
-    			for(i=0; i<4000; i++){} // Задержка
+    			for(i=0; i<DELAY && ((P2IN & BIT2)==BIT2 && (P1IN & BIT7)==BIT7); i++){} // Задержка
+
+                if(i!=DELAY){
+                    break;
+                }
     		}
     	
         }
