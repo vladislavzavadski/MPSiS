@@ -1,5 +1,5 @@
 #include <msp430.h>
-#define DELAY 4000
+#define DELAY 1500
 
 void main(void) {
     volatile int blinkMode = 0;
@@ -35,6 +35,7 @@ void main(void) {
 
     	if(blinkMode == 1){ // Переключаем режим
     		blinkMode = 0;
+            P8OUT &= ~BIT1;
     	}
     	else{
     		blinkMode = 1;
